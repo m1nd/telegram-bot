@@ -1,7 +1,15 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const packageInfo = require('./package.json');
+import express from 'express';
+import https from 'https';
+import fs from 'fs';
+import bodyParser from 'body-parser';
 
+import packageInfo from './package.json';
+//import db from './db';
+
+const options = {
+  key: fs.readFileSync("privkey.pem"),
+  cert: fs.readFileSync("fullchain.pem")
+};
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,11 +18,10 @@ app.get('/', function (req, res) {
   res.json({ version: packageInfo.version });
 });
 
-var server = app.listen(process.env.PORT, "0.0.0.0", () => {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log('Web server started at http://%s:%s', host, port);
-});
+https.createServer(options, app)
+  .listen(process.env.PORT, "0.0.0.0", () => {
+   console.log('Web server started!');
+ });
 
 module.exports = (bot) => {
   app.post('/' + bot.token, (req, res) => {

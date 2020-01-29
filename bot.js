@@ -23,6 +23,8 @@ import {
   TXT_METHODICAL_DESCRIPTION,
   TXT_CHECK_FIGURE_TYPE
 } from "./constants";
+import db from './db';
+import User from './models/users';
 
 // const f = async () => {
 //   return 23;
@@ -34,7 +36,9 @@ let bot;
 
 if (process.env.NODE_ENV === "production") {
   bot = new Bot(token);
-  bot.setWebHook(process.env.HEROKU_URL + bot.token);
+  bot.setWebHook(
+    process.env.HEROKU_URL + ':' + process.env.PORT + '/' + bot.token
+  );
 } else {
   bot = new Bot(token, { polling: true });
 }
@@ -63,10 +67,15 @@ bot.onText(new RegExp(CHECK_FIGURE_TYPE, "i"), msg => {
   bot.sendPhoto(fromId, "assets/metrics.png");
 });
 
-bot.onText(new RegExp(INTRO, "i"), msg => {
+bot.onText(new RegExp(INTRO, "i"), async (msg) => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TXT_INTRO);
+//  User.find({ telegramId: fromId  }, (err, user) => {
+//    console.log(`User =>  ${user}`);
+//  })
 
+   const u = await User.find({ telegramId: fromId });
+   console.log(u);
   // console.log(shapeTypeDetermination({ 
   //   backWidth: 30,
   //   waistWidth: 60,
@@ -157,8 +166,13 @@ bot.on("callback_query", callbackQuery => {
                                     ...clientStore[scaleOfFatMsg.from.id],
                                     scaleOfFat: +scaleOfFatMsg.text
                                   };
-
-                                  console.log(shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]));
+				  const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
+                                  const user = new User({
+				    telegramId: scaleOfFatMsg.from.id,
+				    ...clientStore[scaleOfFatMsg.from.id],
+				   ...shape,
+				  });
+                                  user.save(err => console.log(err));
                                 });
                               });
                           });
