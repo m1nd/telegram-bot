@@ -4,5 +4,6 @@ WORKDIR /home/node/app
 COPY package*.json ./
 USER node
 RUN npm install
+CMD ["npm", "run", "build"]
 COPY --chown=node:node . .
 EXPOSE 8443

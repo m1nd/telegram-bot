@@ -22,8 +22,6 @@ import {
   TXT_METHODICAL_DESCRIPTION,
   TXT_CHECK_FIGURE_TYPE,
 } from './constants';
-
-// import db from './db';
 import User from './models/users';
 
 // const f = async () => {
@@ -72,8 +70,8 @@ bot.onText(new RegExp(INTRO, 'i'), async msg => {
   //    console.log(`User =>  ${user}`);
   //  })
 
-  //  const u = await User.find({ telegramId: fromId });
-  //  console.log(u);
+  const u = await User.find({ telegramId: fromId });
+  console.log(u);
 
   // console.log(shapeTypeDetermination({
   //   backWidth: 30,
@@ -146,7 +144,7 @@ bot.on('callback_query', callbackQuery => {
                             ...clientStore[shoeSizeMsg.from.id],
                             shoeSize: +shoeSizeMsg.text,
                           };
-                          bot.sendPhoto(shoeSizeMsg.from.id, 'assets/figure_type.jpg');
+                          bot.sendPhoto(shoeSizeMsg.from.id, 'src/assets/figure_type.jpg');
                           bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
                               clientStore[scaleOfFatMsg.from.id] = {
