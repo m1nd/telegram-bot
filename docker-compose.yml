@@ -23,8 +23,7 @@ services:
     networks:
       - app-network
     command: >
-      sh -c "./wait-for.sh db:27017 && npm install --save babel-cli  && ls -la ./node_modules/.bin/ &&
-      ./node_modules/.bin/babel && npm run serve" 
+      sh -c "./wait-for.sh db:27017 && npm start" 
 
   db:
     image: mongo:4.1.8-xenial

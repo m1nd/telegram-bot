@@ -6,4 +6,3 @@ USER node
 RUN npm install
 COPY --chown=node:node . .
 EXPOSE 8443
-CMD [ "node", "start.js" ]
