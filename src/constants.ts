@@ -5,7 +5,7 @@ export const METHODICAL_DESCRIPTION = 'узнать о принципах';
 export const INTRO = 'помощь';
 export const START = 'поехали';
 
-export const TTL_SEX = 'Выберите пол'; 
+export const TTL_SEX = 'Выберите пол';
 export const TTL_SHOULDERS = 'Укажите ширину спины';
 export const TTL_HIPS = 'Укажите обхват бёдер';
 export const TTL_WAIST = 'Укажите обхват талии';

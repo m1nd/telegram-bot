@@ -1,7 +1,6 @@
-import Bot from "node-telegram-bot-api";
+import * as Bot from 'node-telegram-bot-api';
 
 import shapeTypeDetermination from "./utils/newDetermination";
-import sizeDetermination from "./utils/sizeDetermination";
 import {
   START,
   FIGURE_TYPES,
@@ -21,9 +20,10 @@ import {
   TXT_FIGURE_TYPES,
   TXT_DRESS_CODES,
   TXT_METHODICAL_DESCRIPTION,
-  TXT_CHECK_FIGURE_TYPE
-} from "./constants";
-import db from './db';
+  TXT_CHECK_FIGURE_TYPE,
+} from './constants';
+
+// import db from './db';
 import User from './models/users';
 
 // const f = async () => {
@@ -34,49 +34,48 @@ const token = process.env.TOKEN;
 let clientStore = {};
 let bot;
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
-  bot.setWebHook(
-    process.env.HEROKU_URL + ':' + process.env.PORT + '/' + bot.token
-  );
+  bot.setWebHook(process.env.HEROKU_URL + ':' + process.env.PORT + '/' + bot.token);
 } else {
   bot = new Bot(token, { polling: true });
 }
 
-console.log("Bot server started in the " + process.env.NODE_ENV + " mode");
+console.log('Bot server started in the ' + process.env.NODE_ENV + ' mode');
 
-bot.onText(new RegExp(FIGURE_TYPES, "i"), msg => {
+bot.onText(new RegExp(FIGURE_TYPES, 'i'), msg => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TXT_FIGURE_TYPES);
 });
 
-bot.onText(new RegExp(DRESS_CODES, "i"), msg => {
+bot.onText(new RegExp(DRESS_CODES, 'i'), msg => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TXT_DRESS_CODES);
 });
 
-bot.onText(new RegExp(METHODICAL_DESCRIPTION, "i"), msg => {
+bot.onText(new RegExp(METHODICAL_DESCRIPTION, 'i'), msg => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TXT_METHODICAL_DESCRIPTION);
-  bot.sendPhoto(fromId, "assets/history.png");
+  bot.sendPhoto(fromId, 'assets/history.png');
 });
 
-bot.onText(new RegExp(CHECK_FIGURE_TYPE, "i"), msg => {
+bot.onText(new RegExp(CHECK_FIGURE_TYPE, 'i'), msg => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TXT_CHECK_FIGURE_TYPE);
-  bot.sendPhoto(fromId, "assets/metrics.png");
+  bot.sendPhoto(fromId, 'assets/metrics.png');
 });
 
-bot.onText(new RegExp(INTRO, "i"), async (msg) => {
+bot.onText(new RegExp(INTRO, 'i'), async msg => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TXT_INTRO);
-//  User.find({ telegramId: fromId  }, (err, user) => {
-//    console.log(`User =>  ${user}`);
-//  })
+  //  User.find({ telegramId: fromId  }, (err, user) => {
+  //    console.log(`User =>  ${user}`);
+  //  })
 
-   const u = await User.find({ telegramId: fromId });
-   console.log(u);
-  // console.log(shapeTypeDetermination({ 
+  //  const u = await User.find({ telegramId: fromId });
+  //  console.log(u);
+
+  // console.log(shapeTypeDetermination({
   //   backWidth: 30,
   //   waistWidth: 60,
   //   hipsWidth: 80,
@@ -84,99 +83,87 @@ bot.onText(new RegExp(INTRO, "i"), async (msg) => {
   //   scaleOfFat: 2,
   //   sex: 'm',
   // }));
-
 });
 
-bot.onText(new RegExp(START, "i"), msg => {
+bot.onText(new RegExp(START, 'i'), msg => {
   const fromId = msg.from.id;
   bot.sendMessage(fromId, TTL_SEX, {
     reply_markup: {
       inline_keyboard: [
         [
           {
-            text: "Мужской",
-            callback_data: "male"
+            text: 'Мужской',
+            callback_data: 'male',
           },
           {
-            text: "Женский",
-            callback_data: "female"
-          }
-        ]
-      ]
-    }
+            text: 'Женский',
+            callback_data: 'female',
+          },
+        ],
+      ],
+    },
   });
 });
 
-
-bot.on("callback_query", callbackQuery => {
+bot.on('callback_query', callbackQuery => {
   clientStore[callbackQuery.from.id] = {
     ...clientStore[callbackQuery.from.id],
-    sex: callbackQuery.data[0]
+    sex: callbackQuery.data[0],
   };
   bot.sendMessage(callbackQuery.from.id, TTL_SHOULDERS).then(() => {
-    bot.once("message", backWidthMsg => {
+    bot.once('message', backWidthMsg => {
       clientStore[backWidthMsg.from.id] = {
         ...clientStore[backWidthMsg.from.id],
-        backWidth: +backWidthMsg.text
+        backWidth: +backWidthMsg.text,
       };
       bot.sendMessage(backWidthMsg.from.id, TTL_HIPS).then(() => {
-        bot.once("message", hipsWidthMsg => {
+        bot.once('message', hipsWidthMsg => {
           clientStore[hipsWidthMsg.from.id] = {
             ...clientStore[hipsWidthMsg.from.id],
-            hipsWidth: +hipsWidthMsg.text
+            hipsWidth: +hipsWidthMsg.text,
           };
           bot.sendMessage(hipsWidthMsg.from.id, TTL_WAIST).then(() => {
-            bot.once("message", waistWidthMsg => {
+            bot.once('message', waistWidthMsg => {
               clientStore[waistWidthMsg.from.id] = {
                 ...clientStore[waistWidthMsg.from.id],
-                waistWidth: +waistWidthMsg.text
+                waistWidth: +waistWidthMsg.text,
               };
               bot.sendMessage(waistWidthMsg.from.id, TTL_CHEST).then(() => {
-                bot.once("message", chestMsg => {
+                bot.once('message', chestMsg => {
                   clientStore[chestMsg.from.id] = {
                     ...clientStore[chestMsg.from.id],
-                    chest: +chestMsg.text
+                    chest: +chestMsg.text,
                   };
                   bot.sendMessage(chestMsg.from.id, TTL_HEIGHT).then(() => {
-                    bot.once("message", heightMsg => {
+                    bot.once('message', heightMsg => {
                       clientStore[heightMsg.from.id] = {
                         ...clientStore[heightMsg.from.id],
-                        height: +heightMsg.text
+                        height: +heightMsg.text,
                       };
-                      bot
-                        .sendMessage(heightMsg.from.id, TTL_SHOE_SIZE)
-                        .then(() => {
-                          bot.once("message", shoeSizeMsg => {
-                            clientStore[shoeSizeMsg.from.id] = {
-                              ...clientStore[shoeSizeMsg.from.id],
-                              shoeSize: +shoeSizeMsg.text
-                            };
-                            bot.sendPhoto(
-                              shoeSizeMsg.from.id,
-                              "assets/figure_type.jpg"
-                            );
-                            bot
-                              .sendMessage(
-                                shoeSizeMsg.from.id,
-                                TTL_FAT_PERCENTAGE
-                              )
-                              .then(() => {
-                                bot.once("message", scaleOfFatMsg => {
-                                  clientStore[scaleOfFatMsg.from.id] = {
-                                    ...clientStore[scaleOfFatMsg.from.id],
-                                    scaleOfFat: +scaleOfFatMsg.text
-                                  };
-				  const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
-                                  const user = new User({
-				    telegramId: scaleOfFatMsg.from.id,
-				    ...clientStore[scaleOfFatMsg.from.id],
-				   ...shape,
-				  });
-                                  user.save(err => console.log(err));
-                                });
+                      bot.sendMessage(heightMsg.from.id, TTL_SHOE_SIZE).then(() => {
+                        bot.once('message', shoeSizeMsg => {
+                          clientStore[shoeSizeMsg.from.id] = {
+                            ...clientStore[shoeSizeMsg.from.id],
+                            shoeSize: +shoeSizeMsg.text,
+                          };
+                          bot.sendPhoto(shoeSizeMsg.from.id, 'assets/figure_type.jpg');
+                          bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
+                            bot.once('message', scaleOfFatMsg => {
+                              clientStore[scaleOfFatMsg.from.id] = {
+                                ...clientStore[scaleOfFatMsg.from.id],
+                                scaleOfFat: +scaleOfFatMsg.text,
+                              };
+                              const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
+                              const user = new User({
+                                telegramId: scaleOfFatMsg.from.id,
+                                ...clientStore[scaleOfFatMsg.from.id],
+                              ...shape,
                               });
+                              user.save(err => console.log(err));
+                            });
                           });
                         });
+                      });
                     });
                   });
                 });
