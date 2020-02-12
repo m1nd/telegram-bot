@@ -151,6 +151,8 @@ bot.on('callback_query', callbackQuery => {
                                 ...clientStore[scaleOfFatMsg.from.id],
                                 scaleOfFat: +scaleOfFatMsg.text,
                               };
+                              bot.sendMessage(scaleOfFatMsg.from.id, 'https://zen.yandex.ru/media/id/5e289177027a1500b09d29bb/moda-vtoroi-mirovoi-voiny-5e2b52af3d008800aff10361');
+                              console.log('STart =>>>', scaleOfFatMsg.from.id);
                               const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
                               const user = new User({
                                 telegramId: scaleOfFatMsg.from.id,
