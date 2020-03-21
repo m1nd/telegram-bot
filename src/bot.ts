@@ -32,6 +32,8 @@ const token = process.env.TOKEN;
 let clientStore = {};
 let bot;
 
+const link = 'https://telegra.ph/Sample-Page-03-21-32';
+
 if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
   bot.setWebHook(process.env.HEROKU_URL + ':' + process.env.PORT + '/' + bot.token);
@@ -151,7 +153,7 @@ bot.on('callback_query', callbackQuery => {
                                 ...clientStore[scaleOfFatMsg.from.id],
                                 scaleOfFat: +scaleOfFatMsg.text,
                               };
-                              bot.sendMessage(scaleOfFatMsg.from.id, 'https://zen.yandex.ru/media/id/5e289177027a1500b09d29bb/moda-vtoroi-mirovoi-voiny-5e2b52af3d008800aff10361');
+                              bot.sendMessage(scaleOfFatMsg.from.id, link);
                               console.log('STart =>>>', scaleOfFatMsg.from.id);
                               const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
                               const user = new User({
