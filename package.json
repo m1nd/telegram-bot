@@ -15,6 +15,7 @@
   "author": "m1nd",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.15.0",
     "dotenv": "^4.0.0",
     "express": "^4.13.4",
