@@ -160,7 +160,8 @@ bot.on('callback_query', callbackQuery => {
                               bot.sendMessage(scaleOfFatMsg.from.id, link);
                               axios.get(getLink)
                               .then((res) => {
-                                console.log(`content => : ${res}`)
+                                console.log(`content => : ${res.data}`)
+
                               })
                               .catch((error) => {
                                 console.error(error)
