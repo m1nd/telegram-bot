@@ -30,11 +30,13 @@ import User from './models/users';
 //   return 23;
 // }
 
+let lnk = '';
+
 async function makeGetRequest() {
   
   let res = await axios.get(getLink);
 
-  return JSON.stringify(res.data.result.url);
+  lnk = JSON.stringify(res.data.result.url);
 
 }
 
@@ -168,7 +170,7 @@ bot.on('callback_query', callbackQuery => {
                           //     .catch((error) => {
                           //       console.error(error)
                           //     });
-                          const lnk = makeGetRequest();
+                          makeGetRequest();
                           
 
 
