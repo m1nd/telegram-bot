@@ -34,7 +34,7 @@ const token = process.env.TOKEN;
 let clientStore = {};
 let bot;
 
-const link = 'https://telegra.ph/Sample-Page-03-21-32';
+// const link = 'https://telegra.ph/Sample-Page-03-21-32';
 
 const getLink = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["Hello,+tadam!!!"]}]&return_content=true`;
 
