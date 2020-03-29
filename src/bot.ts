@@ -30,6 +30,14 @@ import User from './models/users';
 //   return 23;
 // }
 
+async function makeGetRequest() {
+  
+  let res = await axios.get(getLink);
+
+  return JSON.stringify(res.data.result.url);
+
+}
+
 const token = process.env.TOKEN;
 let clientStore = {};
 let bot;
@@ -151,14 +159,19 @@ bot.on('callback_query', callbackQuery => {
                             shoeSize: +shoeSizeMsg.text,
                           };
                           bot.sendPhoto(shoeSizeMsg.from.id, 'src/assets/figure_type.jpg');
-                          const lnk = axios.get(getLink)
-                              .then((res) => {
-                                return JSON.stringify(res.data.result.url);
+                          
+                          // const lnk = axios.get(getLink)
+                          //     .then((res) => {
+                          //       return JSON.stringify(res.data.result.url);
 
-                              })
-                              .catch((error) => {
-                                console.error(error)
-                              });
+                          //     })
+                          //     .catch((error) => {
+                          //       console.error(error)
+                          //     });
+                          const lnk = makeGetRequest();
+                          
+
+
                           bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
                               clientStore[scaleOfFatMsg.from.id] = {
