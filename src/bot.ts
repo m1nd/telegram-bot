@@ -171,6 +171,7 @@ bot.on('callback_query', callbackQuery => {
                               };
                               bot.sendMessage(scaleOfFatMsg.from.id, lnk);
                               const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
+                              console.log(shape);
                               const user = new User({
                                 telegramId: scaleOfFatMsg.from.id,
                                 ...clientStore[scaleOfFatMsg.from.id],
