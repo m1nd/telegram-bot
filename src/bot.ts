@@ -1,5 +1,4 @@
 import * as Bot from 'node-telegram-bot-api';
-// import * as axios from 'axios';
 import axios from 'axios';
 
 import shapeTypeDetermination from "./utils/newDetermination";
@@ -32,9 +31,9 @@ import User from './models/users';
 
 let lnk = '';
 
-async function makeGetRequest() {
+async function makeGetRequest(link) {
   
-  let res = await axios.get(getLink);
+  let res = await axios.get(link);
 
   lnk = JSON.stringify(res.data.result.url);
 
@@ -162,35 +161,15 @@ bot.on('callback_query', callbackQuery => {
                           };
                           bot.sendPhoto(shoeSizeMsg.from.id, 'src/assets/figure_type.jpg');
                           
-                          // const lnk = axios.get(getLink)
-                          //     .then((res) => {
-                          //       return JSON.stringify(res.data.result.url);
-
-                          //     })
-                          //     .catch((error) => {
-                          //       console.error(error)
-                          //     });
-                          makeGetRequest();
+                          makeGetRequest(getLink);
                           
-
-
                           bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
                               clientStore[scaleOfFatMsg.from.id] = {
                                 ...clientStore[scaleOfFatMsg.from.id],
                                 scaleOfFat: +scaleOfFatMsg.text,
                               };
-                              console.log('LNK => ', lnk);
                               bot.sendMessage(scaleOfFatMsg.from.id, lnk);
-                              // axios.get(getLink)
-                              // .then((res) => {
-                              //   console.log(`content => : ${JSON.stringify(res.data.result.url)}`)
-
-                              // })
-                              // .catch((error) => {
-                              //   console.error(error)
-                              // });
-                              console.log('STart =>>>', scaleOfFatMsg.from.id);
                               const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
                               const user = new User({
                                 telegramId: scaleOfFatMsg.from.id,
