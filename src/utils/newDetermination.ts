@@ -147,8 +147,8 @@ export default function shapeTypeDetermination({ backWidth, waistWidth, hipsWidt
 
     return {
       ...results,
-      recommendations: recommendationsMap[results.appearance_type],
-      people: peopleMap[results.appearance_type],
+      recommendations: recommendationsMap[+results.appearance_type + 1],
+      people: peopleMap[+results.appearance_type + 1],
     }
   }
 
