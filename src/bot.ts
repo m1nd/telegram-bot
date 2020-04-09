@@ -36,12 +36,10 @@ async function makeGetRequest(content) {
   // let res = await axios.get(link);
 
   const res = await axios.post('https://api.telegra.ph/createPage', {
-    data: {
       access_token: "0c43c05e11881e9a4f5ce831eaaddd87704f33e0b73b1cd39b128631f5b6",
       title: "Title of page",
       content: [{"tag":"p","children": [content]}],
       return_content: true,
-    }
   });
 
   console.log(res);
