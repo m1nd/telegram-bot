@@ -161,7 +161,7 @@ bot.on('callback_query', callbackQuery => {
                           };
                           bot.sendPhoto(shoeSizeMsg.from.id, 'src/assets/figure_type.jpg');
                           
-                          makeGetRequest(getLink);
+                          // makeGetRequest(getLink);
                           
                           bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
@@ -169,15 +169,24 @@ bot.on('callback_query', callbackQuery => {
                                 ...clientStore[scaleOfFatMsg.from.id],
                                 scaleOfFat: +scaleOfFatMsg.text,
                               };
-                              bot.sendMessage(scaleOfFatMsg.from.id, lnk);
+                              // bot.sendMessage(scaleOfFatMsg.from.id, lnk);
                               const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
-                              console.log(shape);
                               const user = new User({
                                 telegramId: scaleOfFatMsg.from.id,
                                 ...clientStore[scaleOfFatMsg.from.id],
                               ...shape,
                               });
                               user.save(err => console.log(err));
+
+                              const link = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["${shape.recommendations}"]}]&return_content=true`;
+                              console.log(link);
+
+                              makeGetRequest(link);
+
+                              console.log(lnk);
+
+                              bot.sendMessage(scaleOfFatMsg.from.id, lnk);
+
                             });
                           });
                         });
