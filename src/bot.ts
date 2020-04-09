@@ -31,9 +31,18 @@ import User from './models/users';
 
 let lnk = '';
 
-async function makeGetRequest(link) {
+async function makeGetRequest(content) {
   
-  let res = await axios.get(link);
+  // let res = await axios.get(link);
+
+  const res = await axios.post('https://api.telegra.ph/createPage', {
+    data: {
+      access_token: "0c43c05e11881e9a4f5ce831eaaddd87704f33e0b73b1cd39b128631f5b6",
+      title: "Title of page",
+      content: [{"tag":"p","children": [content]}],
+      return_content: true,
+    }
+  });
 
   lnk = JSON.stringify(res.data.result.url);
 
@@ -178,10 +187,9 @@ bot.on('callback_query', callbackQuery => {
                               });
                               user.save(err => console.log(err));
 
-                              const link = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["${shape.recommendations}"]}]&return_content=true`;
-                              console.log(link);
+                              // const link = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["${shape.recommendations}"]}]&return_content=true`;
 
-                              makeGetRequest(link);
+                              makeGetRequest(shape.recommendations);
 
                               console.log(lnk);
 
