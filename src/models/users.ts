@@ -13,6 +13,8 @@ const User = new Schema({
   appearance_type: { type: String, required: false },
   isFat: { type: Boolean, required: false },
   u: { type: String, required: false },
+  recommendations: { type: String, required: false },
+  people: { type: String, required: false },
 });
 
 export default mongoose.model('User', User);
