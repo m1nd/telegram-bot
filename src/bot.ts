@@ -44,6 +44,8 @@ async function makeGetRequest(content) {
     }
   });
 
+  console.log(res);
+
   lnk = JSON.stringify(res.data.result.url);
 
 }
