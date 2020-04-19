@@ -146,87 +146,89 @@ bot.onText(new RegExp(START, 'i'), msg => {
 
 bot.on('callback_query', callbackQuery => {
 
-  console.log('ID => ', callbackQuery.from.id);
+  // console.log('ID => ', callbackQuery.from.id);
 
-  clientStore[callbackQuery.from.id] = {
-    ...clientStore[callbackQuery.from.id],
+  const fromId =  callbackQuery.from.id;
+
+  clientStore[fromId] = {
+    ...clientStore[fromId],
     sex: callbackQuery.data[0],
   };
-  bot.sendMessage(callbackQuery.from.id, TTL_SHOULDERS).then(() => {
+  bot.sendMessage(fromId, TTL_SHOULDERS).then(() => {
     bot.once('message', backWidthMsg => {
 
-      console.log('ID => ', backWidthMsg.from.id);
+      // console.log('ID => ', backWidthMsg.from.id);
 
-      clientStore[backWidthMsg.from.id] = {
-        ...clientStore[backWidthMsg.from.id],
+      clientStore[fromId] = {
+        ...clientStore[fromId],
         backWidth: +backWidthMsg.text,
       };
-      bot.sendMessage(backWidthMsg.from.id, TTL_HIPS).then(() => {
+      bot.sendMessage(fromId, TTL_HIPS).then(() => {
         bot.once('message', hipsWidthMsg => {
 
-          console.log('ID => ', hipsWidthMsg.from.id);
+          // console.log('ID => ', hipsWidthMsg.from.id);
 
-          clientStore[hipsWidthMsg.from.id] = {
-            ...clientStore[hipsWidthMsg.from.id],
+          clientStore[fromId] = {
+            ...clientStore[fromId],
             hipsWidth: +hipsWidthMsg.text,
           };
-          bot.sendMessage(hipsWidthMsg.from.id, TTL_WAIST).then(() => {
+          bot.sendMessage(fromId, TTL_WAIST).then(() => {
             bot.once('message', waistWidthMsg => {
 
-              console.log('ID => ', waistWidthMsg.from.id);
+              // console.log('ID => ', waistWidthMsg.from.id);
 
-              clientStore[waistWidthMsg.from.id] = {
-                ...clientStore[waistWidthMsg.from.id],
+              clientStore[fromId] = {
+                ...clientStore[fromId],
                 waistWidth: +waistWidthMsg.text,
               };
-              bot.sendMessage(waistWidthMsg.from.id, TTL_CHEST).then(() => {
+              bot.sendMessage(fromId, TTL_CHEST).then(() => {
                 bot.once('message', chestMsg => {
 
-                  console.log('ID => ', chestMsg.from.id);
+                  // console.log('ID => ', chestMsg.from.id);
 
-                  clientStore[chestMsg.from.id] = {
-                    ...clientStore[chestMsg.from.id],
+                  clientStore[fromId] = {
+                    ...clientStore[fromId],
                     chest: +chestMsg.text,
                   };
-                  bot.sendMessage(chestMsg.from.id, TTL_HEIGHT).then(() => {
+                  bot.sendMessage(fromId, TTL_HEIGHT).then(() => {
                     bot.once('message', heightMsg => {
 
-                      console.log('ID => ', heightMsg.from.id);
+                      // console.log('ID => ', heightMsg.from.id);
 
-                      clientStore[heightMsg.from.id] = {
-                        ...clientStore[heightMsg.from.id],
+                      clientStore[fromId] = {
+                        ...clientStore[fromId],
                         height: +heightMsg.text,
                       };
-                      bot.sendMessage(heightMsg.from.id, TTL_SHOE_SIZE).then(() => {
+                      bot.sendMessage(fromId, TTL_SHOE_SIZE).then(() => {
                         bot.once('message', shoeSizeMsg => {
 
-                          console.log('ID => ', shoeSizeMsg.from.id);
+                          // console.log('ID => ', shoeSizeMsg.from.id);
 
-                          clientStore[shoeSizeMsg.from.id] = {
-                            ...clientStore[shoeSizeMsg.from.id],
+                          clientStore[fromId] = {
+                            ...clientStore[fromId],
                             shoeSize: +shoeSizeMsg.text,
                           };
-                          bot.sendPhoto(shoeSizeMsg.from.id, FIGURE_TYPE_PATH);
+                          bot.sendPhoto(fromId, FIGURE_TYPE_PATH);
 
-                          bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
+                          bot.sendMessage(fromId, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
 
-                              console.log('ID => ', scaleOfFatMsg.from.id);
+                              // console.log('ID => ', scaleOfFatMsg.from.id);
 
-                              clientStore[scaleOfFatMsg.from.id] = {
-                                ...clientStore[scaleOfFatMsg.from.id],
+                              clientStore[fromId] = {
+                                ...clientStore[fromId],
                                 scaleOfFat: +scaleOfFatMsg.text,
                               };
-                              const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
+                              const shape = shapeTypeDetermination(clientStore[fromId]);
                               const user = new User({
-                                telegramId: scaleOfFatMsg.from.id,
-                                ...clientStore[scaleOfFatMsg.from.id],
+                                telegramId: fromId,
+                                ...clientStore[fromId],
                                 ...shape,
                               });
                               user.save(err => console.log(err));
 
                               makeGetRequest(shape.recommendations).then(resp => {
-                                bot.sendMessage(scaleOfFatMsg.from.id, resp);
+                                bot.sendMessage(fromId, resp);
                               });
                             });
                           });
