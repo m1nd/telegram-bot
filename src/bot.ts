@@ -145,9 +145,6 @@ bot.onText(new RegExp(START, 'i'), msg => {
 });
 
 bot.on('callback_query', callbackQuery => {
-
-  // console.log('ID => ', callbackQuery.from.id);
-
   const fromId =  callbackQuery.from.id;
 
   clientStore[fromId] = {
@@ -156,54 +153,36 @@ bot.on('callback_query', callbackQuery => {
   };
   bot.sendMessage(fromId, TTL_SHOULDERS).then(() => {
     bot.once('message', backWidthMsg => {
-
-      // console.log('ID => ', backWidthMsg.from.id);
-
       clientStore[fromId] = {
         ...clientStore[fromId],
         backWidth: +backWidthMsg.text,
       };
       bot.sendMessage(fromId, TTL_HIPS).then(() => {
         bot.once('message', hipsWidthMsg => {
-
-          // console.log('ID => ', hipsWidthMsg.from.id);
-
           clientStore[fromId] = {
             ...clientStore[fromId],
             hipsWidth: +hipsWidthMsg.text,
           };
           bot.sendMessage(fromId, TTL_WAIST).then(() => {
             bot.once('message', waistWidthMsg => {
-
-              // console.log('ID => ', waistWidthMsg.from.id);
-
               clientStore[fromId] = {
                 ...clientStore[fromId],
                 waistWidth: +waistWidthMsg.text,
               };
               bot.sendMessage(fromId, TTL_CHEST).then(() => {
                 bot.once('message', chestMsg => {
-
-                  // console.log('ID => ', chestMsg.from.id);
-
                   clientStore[fromId] = {
                     ...clientStore[fromId],
                     chest: +chestMsg.text,
                   };
                   bot.sendMessage(fromId, TTL_HEIGHT).then(() => {
                     bot.once('message', heightMsg => {
-
-                      // console.log('ID => ', heightMsg.from.id);
-
                       clientStore[fromId] = {
                         ...clientStore[fromId],
                         height: +heightMsg.text,
                       };
                       bot.sendMessage(fromId, TTL_SHOE_SIZE).then(() => {
                         bot.once('message', shoeSizeMsg => {
-
-                          // console.log('ID => ', shoeSizeMsg.from.id);
-
                           clientStore[fromId] = {
                             ...clientStore[fromId],
                             shoeSize: +shoeSizeMsg.text,
@@ -212,9 +191,6 @@ bot.on('callback_query', callbackQuery => {
 
                           bot.sendMessage(fromId, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
-
-                              // console.log('ID => ', scaleOfFatMsg.from.id);
-
                               clientStore[fromId] = {
                                 ...clientStore[fromId],
                                 scaleOfFat: +scaleOfFatMsg.text,
