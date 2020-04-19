@@ -149,7 +149,7 @@ const calculate = async (fromId): Promise<any> => {
 
   await bot.sendMessage(fromId, TTL_SHOULDERS);
 
-  await new Promise((resolve, reject) => {
+  await new Promise((resolve) => {
     bot.once('message', backWidthMsg => {
         clientStore[fromId] = {
           ...clientStore[fromId],
@@ -161,7 +161,7 @@ const calculate = async (fromId): Promise<any> => {
     resolve(true);
   });
   
-  await new Promise((resolve, reject) => {
+  await new Promise((resolve) => {
     bot.once('message', hipsWidthMsg => {
         clientStore[fromId] = {
           ...clientStore[fromId],
