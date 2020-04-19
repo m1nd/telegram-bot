@@ -44,7 +44,7 @@ const makeGetRequest = async (content): Promise<any> => {
     console.log('accessToken => ', accessToken);
 
     const data = JSON.stringify({
-      access_token: accessToken,
+      access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
       title: "Title of page",
       content: [
         {
