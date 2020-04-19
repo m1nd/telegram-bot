@@ -25,10 +25,6 @@ import {
 } from './constants';
 import User from './models/users';
 
-// const f = async () => {
-//   return 23;
-// }
-
 const getToken = async (): Promise<string> => {
   const result = await axios.get('https://api.telegra.ph/createAccount?short_name=style&author_name=m1nd');
   const accessToken = JSON.stringify(result.data.result.access_token);
@@ -36,7 +32,7 @@ const getToken = async (): Promise<string> => {
   return accessToken;
 }
 
-const makeGetRequest = async (content): Promise<any> => {
+const makeGetRequest = async (content: string): Promise<any> => {
   
   try {
     const accessToken = await getToken();
@@ -50,8 +46,6 @@ const makeGetRequest = async (content): Promise<any> => {
         {
           tag:"p",
           children: [content],
-            // children: ["Hello world!"],
-
         }
       ],
       return_content: true,
@@ -63,25 +57,6 @@ const makeGetRequest = async (content): Promise<any> => {
         }
     }
     );
-
-    // const res = await axios.post('https://api.telegra.ph/createPage', {
-    //     // access_token: JSON.parse(accessToken),
-    //     access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
-
-    //     title: "Title of page",
-    //     // content: [{"tag":"p","children": [content]}],
-    //     content: [
-    //       {
-    //         tag:"p",
-    //         children: ["Hello world!"],
-    //       }
-    //     ],
-    //     return_content: true,
-    // });
-
-    console.log('CONTENT => ', content);
-
-    console.log('RESULT => ', res);
 
     return JSON.stringify(res.data.result.url);
   } catch (error) {
@@ -231,10 +206,8 @@ bot.on('callback_query', callbackQuery => {
 
                               // const link = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["${shape.recommendations}"]}]&return_content=true`;
 
-                              makeGetRequest(shape.recommendations).then(r => {
-                                console.log('link resp => ', r);
-                              // bot.sendMessage(scaleOfFatMsg.from.id, lnk);
-
+                              makeGetRequest(shape.recommendations).then(resp => {
+                                bot.sendMessage(scaleOfFatMsg.from.id, resp);
                               });
 
                             });
