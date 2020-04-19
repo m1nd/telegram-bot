@@ -146,25 +146,33 @@ bot.onText(new RegExp(START, 'i'), msg => {
 
 const calculate = async (fromId): Promise<any> => {
   
-  await bot.sendMessage(fromId, TTL_SHOULDERS);
-  await bot.once('message', backWidthMsg => {
-      clientStore[fromId] = {
-        ...clientStore[fromId],
-        backWidth: +backWidthMsg.text,
-      }
-    }
-  );
-  
-  await bot.sendMessage(fromId, TTL_HIPS);
-  await bot.once('message', hipsWidthMsg => {
-      clientStore[fromId] = {
-        ...clientStore[fromId],
-        hipsWidth: +hipsWidthMsg.text,
-      }
-    }
-  );
 
-  await bot.sendMessage(fromId, TTL_WAIST);
+  await bot.sendMessage(fromId, TTL_SHOULDERS);
+
+  await new Promise((resolve, reject) => {
+    bot.once('message', backWidthMsg => {
+        clientStore[fromId] = {
+          ...clientStore[fromId],
+          backWidth: +backWidthMsg.text,
+        }
+      }
+    );
+    bot.sendMessage(fromId, TTL_HIPS);
+    resolve(true);
+  });
+  
+  await new Promise((resolve, reject) => {
+    bot.once('message', hipsWidthMsg => {
+        clientStore[fromId] = {
+          ...clientStore[fromId],
+          hipsWidth: +hipsWidthMsg.text,
+        }
+      }
+    );
+    bot.sendMessage(fromId, TTL_WAIST);
+    resolve(true);
+  });
+
   await bot.once('message', waistWidthMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
