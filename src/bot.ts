@@ -43,20 +43,40 @@ const makeGetRequest = async (content): Promise<any> => {
 
     console.log('accessToken => ', accessToken);
 
-    const res = await axios.post('https://api.telegra.ph/createPage', {
-        // access_token: JSON.parse(accessToken),
-        access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
+    const data = JSON.stringify({
+      access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
+      title: "Title of page",
+      // content: [{"tag":"p","children": [content]}],
+      content: [
+        {
+          tag:"p",
+          children: ["Hello world!"],
+        }
+      ],
+      return_content: true,
+    })
 
-        title: "Title of page",
-        // content: [{"tag":"p","children": [content]}],
-        content: [
-          {
-            tag:"p",
-            children: ["Hello world!"],
-          }
-        ],
-        return_content: true,
-    });
+    const res = await axios.post('https://api.telegra.ph/createPage', data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }
+    );
+
+    // const res = await axios.post('https://api.telegra.ph/createPage', {
+    //     // access_token: JSON.parse(accessToken),
+    //     access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
+
+    //     title: "Title of page",
+    //     // content: [{"tag":"p","children": [content]}],
+    //     content: [
+    //       {
+    //         tag:"p",
+    //         children: ["Hello world!"],
+    //       }
+    //     ],
+    //     return_content: true,
+    // });
 
     console.log(content);
 
