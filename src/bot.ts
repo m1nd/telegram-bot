@@ -31,17 +31,19 @@ import User from './models/users';
 
 let lnk = '';
 
-const getToken = async () => {
+const getToken = async (): Promise<string> => {
   const result = await axios.get('https://api.telegra.ph/createAccount?short_name=style&author_name=m1nd');
-  const access_token = JSON.stringify(result.data.result.access_token);
+  const accessToken = JSON.stringify(result.data.result.access_token);
 
-  return access_token;
+  return accessToken;
 }
 
-async function makeGetRequest(content) {
+const makeGetRequest = async (content) => {
   
   // let res = await axios.get(link);
   const accessToken = await getToken();
+
+  console.log('accessToken => ', accessToken);
 
   const res = await axios.post('https://api.telegra.ph/createPage', {
       access_token: accessToken,
@@ -50,7 +52,7 @@ async function makeGetRequest(content) {
       return_content: true,
   });
 
-  console.log(res);
+  // console.log(res);
 
   lnk = JSON.stringify(res.data.result.url);
 
@@ -199,7 +201,7 @@ bot.on('callback_query', callbackQuery => {
 
                               makeGetRequest(shape.recommendations);
 
-                              console.log(lnk);
+                              console.log('link => ', lnk);
 
                               bot.sendMessage(scaleOfFatMsg.from.id, lnk);
 
