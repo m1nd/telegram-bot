@@ -29,8 +29,6 @@ import User from './models/users';
 //   return 23;
 // }
 
-let lnk = '';
-
 const getToken = async (): Promise<string> => {
   const result = await axios.get('https://api.telegra.ph/createAccount?short_name=style&author_name=m1nd');
   const accessToken = JSON.stringify(result.data.result.access_token);
@@ -38,9 +36,8 @@ const getToken = async (): Promise<string> => {
   return accessToken;
 }
 
-const makeGetRequest = async (content) => {
+const makeGetRequest = async (content): Promise<any> => {
   
-  // let res = await axios.get(link);
   const accessToken = await getToken();
 
   console.log('accessToken => ', accessToken);
@@ -54,7 +51,7 @@ const makeGetRequest = async (content) => {
 
   // console.log(res);
 
-  lnk = JSON.stringify(res.data.result.url);
+  return JSON.stringify(res.data.result.url);
 
 }
 
@@ -199,11 +196,11 @@ bot.on('callback_query', callbackQuery => {
 
                               // const link = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["${shape.recommendations}"]}]&return_content=true`;
 
-                              makeGetRequest(shape.recommendations);
+                              makeGetRequest(shape.recommendations).then(r => {
+                                console.log('link resp => ', r);
+                              // bot.sendMessage(scaleOfFatMsg.from.id, lnk);
 
-                              console.log('link => ', lnk);
-
-                              bot.sendMessage(scaleOfFatMsg.from.id, lnk);
+                              });
 
                             });
                           });
