@@ -42,35 +42,35 @@ const getToken = async (): Promise<string> => {
   return accessToken;
 };
 
-const makeGetRequest = async (content: string): Promise<any> => {
-  try {
-    const accessToken = await getToken();
+// const makeGetRequest = async (content: string): Promise<any> => {
+//   try {
+//     const accessToken = await getToken();
 
-    console.log('accessToken => ', accessToken);
+//     console.log('accessToken => ', accessToken);
 
-    const data = JSON.stringify({
-      access_token: ACCESS_TOKEN,
-      title: 'Title of page',
-      content: [
-        {
-          tag: 'p',
-          children: [content],
-        },
-      ],
-      return_content: true,
-    });
+//     const data = JSON.stringify({
+//       access_token: ACCESS_TOKEN,
+//       title: 'Title of page',
+//       content: [
+//         {
+//           tag: 'p',
+//           children: [content],
+//         },
+//       ],
+//       return_content: true,
+//     });
 
-    const res = await axios.post('https://api.telegra.ph/createPage', data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+//     const res = await axios.post('https://api.telegra.ph/createPage', data, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//     });
 
-    return JSON.stringify(res.data.result.url);
-  } catch (error) {
-    console.log('ERROR => ', error);
-  }
-};
+//     return JSON.stringify(res.data.result.url);
+//   } catch (error) {
+//     console.log('ERROR => ', error);
+//   }
+// };
 
 
 if (process.env.NODE_ENV === 'production') {
