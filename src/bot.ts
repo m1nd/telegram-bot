@@ -38,20 +38,24 @@ const getToken = async (): Promise<string> => {
 
 const makeGetRequest = async (content): Promise<any> => {
   
-  const accessToken = await getToken();
+  try {
+    const accessToken = await getToken();
 
-  console.log('accessToken => ', accessToken);
+    console.log('accessToken => ', accessToken);
 
-  const res = await axios.post('https://api.telegra.ph/createPage', {
-      access_token: accessToken,
-      title: "Title of page",
-      content: [{"tag":"p","children": [content]}],
-      return_content: true,
-  });
+    const res = await axios.post('https://api.telegra.ph/createPage', {
+        access_token: accessToken,
+        title: "Title of page",
+        content: [{"tag":"p","children": [content]}],
+        return_content: true,
+    });
 
-  // console.log(res);
+    // console.log(res);
 
-  return JSON.stringify(res.data.result.url);
+    return JSON.stringify(res.data.result.url);
+  } catch (error) {
+    console.log('ERROR => ', error);
+  }
 
 }
 
