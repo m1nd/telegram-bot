@@ -44,13 +44,12 @@ const makeGetRequest = async (content): Promise<any> => {
     console.log('accessToken => ', accessToken);
 
     const data = JSON.stringify({
-      access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
+      access_token: accessToken,
       title: "Title of page",
-      // content: [{"tag":"p","children": [content]}],
       content: [
         {
           tag:"p",
-          children: ["Hello world!"],
+          children: [content],
         }
       ],
       return_content: true,
@@ -77,8 +76,6 @@ const makeGetRequest = async (content): Promise<any> => {
     //     ],
     //     return_content: true,
     // });
-
-    console.log(content);
 
     console.log('RESULT => ', res);
 
