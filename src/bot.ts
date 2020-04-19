@@ -147,7 +147,7 @@ bot.onText(new RegExp(START, 'i'), msg => {
 const calculate = async (fromId): Promise<any> => {
   
   await bot.sendMessage(fromId, TTL_SHOULDERS);
-  bot.once('message', backWidthMsg => {
+  await bot.once('message', backWidthMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         backWidth: +backWidthMsg.text,
@@ -156,7 +156,7 @@ const calculate = async (fromId): Promise<any> => {
   );
   
   await bot.sendMessage(fromId, TTL_HIPS);
-  bot.once('message', hipsWidthMsg => {
+  await bot.once('message', hipsWidthMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         hipsWidth: +hipsWidthMsg.text,
@@ -165,7 +165,7 @@ const calculate = async (fromId): Promise<any> => {
   );
 
   await bot.sendMessage(fromId, TTL_WAIST);
-  bot.once('message', waistWidthMsg => {
+  await bot.once('message', waistWidthMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         waistWidth: +waistWidthMsg.text,
@@ -174,7 +174,7 @@ const calculate = async (fromId): Promise<any> => {
   );
 
   await bot.sendMessage(fromId, TTL_CHEST);
-  bot.once('message', chestMsg => {
+  await bot.once('message', chestMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         chest: +chestMsg.text,
@@ -183,7 +183,7 @@ const calculate = async (fromId): Promise<any> => {
   );
 
   await bot.sendMessage(fromId, TTL_HEIGHT);
-  bot.once('message', heightMsg => {
+  await bot.once('message', heightMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         height: +heightMsg.text,
@@ -192,7 +192,7 @@ const calculate = async (fromId): Promise<any> => {
   );
 
   await bot.sendMessage(fromId, TTL_SHOE_SIZE);
-    bot.once('message', shoeSizeMsg => {
+  await bot.once('message', shoeSizeMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         shoeSize: +shoeSizeMsg.text,
@@ -203,7 +203,7 @@ const calculate = async (fromId): Promise<any> => {
   await bot.sendPhoto(fromId, FIGURE_TYPE_PATH);
 
   await bot.sendMessage(fromId, TTL_FAT_PERCENTAGE);
-  bot.once('message', scaleOfFatMsg => {
+  await bot.once('message', scaleOfFatMsg => {
       clientStore[fromId] = {
         ...clientStore[fromId],
         scaleOfFat: +scaleOfFatMsg.text,
