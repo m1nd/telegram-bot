@@ -49,8 +49,8 @@ const makeGetRequest = async (content): Promise<any> => {
       content: [
         {
           tag:"p",
-          // children: [`${content}`],
-            children: ["Hello world!"],
+          children: [content],
+            // children: ["Hello world!"],
 
         }
       ],
