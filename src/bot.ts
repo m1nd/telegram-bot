@@ -49,7 +49,9 @@ const makeGetRequest = async (content): Promise<any> => {
       content: [
         {
           tag:"p",
-          children: [content],
+          // children: [`${content}`],
+            children: ["Hello world!"],
+
         }
       ],
       return_content: true,
@@ -76,6 +78,8 @@ const makeGetRequest = async (content): Promise<any> => {
     //     ],
     //     return_content: true,
     // });
+
+    console.log('CONTENT => ', content);
 
     console.log('RESULT => ', res);
 
