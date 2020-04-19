@@ -51,6 +51,8 @@ const makeGetRequest = async (content): Promise<any> => {
         return_content: true,
     });
 
+    console.log(content);
+
     console.log('RESULT => ', res);
 
     return JSON.stringify(res.data.result.url);
