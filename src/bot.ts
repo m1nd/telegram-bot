@@ -44,7 +44,9 @@ const makeGetRequest = async (content): Promise<any> => {
     console.log('accessToken => ', accessToken);
 
     const res = await axios.post('https://api.telegra.ph/createPage', {
-        access_token: JSON.parse(accessToken),
+        // access_token: JSON.parse(accessToken),
+        access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
+
         title: "Title of page",
         // content: [{"tag":"p","children": [content]}],
         content: [
