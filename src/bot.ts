@@ -47,7 +47,12 @@ const makeGetRequest = async (content): Promise<any> => {
         access_token: JSON.parse(accessToken),
         title: "Title of page",
         // content: [{"tag":"p","children": [content]}],
-        content: [{"tag":"p","children": ["Hello world!"]}],
+        content: [
+          {
+            tag:"p",
+            children: ["Hello world!"],
+          }
+        ],
         return_content: true,
     });
 
