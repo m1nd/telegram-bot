@@ -1,7 +1,7 @@
 import * as Bot from 'node-telegram-bot-api';
 import axios from 'axios';
 
-import shapeTypeDetermination from "./utils/newDetermination";
+import shapeTypeDetermination from './utils/newDetermination';
 import {
   START,
   FIGURE_TYPES,
@@ -25,53 +25,53 @@ import {
 } from './constants';
 import User from './models/users';
 
+// const link = 'https://telegra.ph/Sample-Page-03-21-32';
+// const getLink = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["Hello,+tadam!!!"]}]&return_content=true`;
+
+const token = process.env.TOKEN;
+const FIGURE_TYPE_PATH = 'src/assets/figure_type.jpg';
+const ACCESS_TOKEN ='671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff';
+let clientStore = {};
+let bot;
+
+
 const getToken = async (): Promise<string> => {
   const result = await axios.get('https://api.telegra.ph/createAccount?short_name=style&author_name=m1nd');
   const accessToken = JSON.stringify(result.data.result.access_token);
 
   return accessToken;
-}
+};
 
 const makeGetRequest = async (content: string): Promise<any> => {
-  
   try {
     const accessToken = await getToken();
 
     console.log('accessToken => ', accessToken);
 
     const data = JSON.stringify({
-      access_token: "671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff",
-      title: "Title of page",
+      access_token: ACCESS_TOKEN,
+      title: 'Title of page',
       content: [
         {
-          tag:"p",
+          tag: 'p',
           children: [content],
-        }
+        },
       ],
       return_content: true,
-    })
+    });
 
     const res = await axios.post('https://api.telegra.ph/createPage', data, {
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }
-    );
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     return JSON.stringify(res.data.result.url);
   } catch (error) {
     console.log('ERROR => ', error);
   }
+};
 
-}
-
-const token = process.env.TOKEN;
-let clientStore = {};
-let bot;
-
-// const link = 'https://telegra.ph/Sample-Page-03-21-32';
-
-// const getLink = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["Hello,+tadam!!!"]}]&return_content=true`;
 
 if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
@@ -145,71 +145,89 @@ bot.onText(new RegExp(START, 'i'), msg => {
 });
 
 bot.on('callback_query', callbackQuery => {
+
+  console.log('ID => ', callbackQuery.from.id);
+
   clientStore[callbackQuery.from.id] = {
     ...clientStore[callbackQuery.from.id],
     sex: callbackQuery.data[0],
   };
   bot.sendMessage(callbackQuery.from.id, TTL_SHOULDERS).then(() => {
     bot.once('message', backWidthMsg => {
+
+      console.log('ID => ', backWidthMsg.from.id);
+
       clientStore[backWidthMsg.from.id] = {
         ...clientStore[backWidthMsg.from.id],
         backWidth: +backWidthMsg.text,
       };
       bot.sendMessage(backWidthMsg.from.id, TTL_HIPS).then(() => {
         bot.once('message', hipsWidthMsg => {
+
+          console.log('ID => ', hipsWidthMsg.from.id);
+
           clientStore[hipsWidthMsg.from.id] = {
             ...clientStore[hipsWidthMsg.from.id],
             hipsWidth: +hipsWidthMsg.text,
           };
           bot.sendMessage(hipsWidthMsg.from.id, TTL_WAIST).then(() => {
             bot.once('message', waistWidthMsg => {
+
+              console.log('ID => ', waistWidthMsg.from.id);
+
               clientStore[waistWidthMsg.from.id] = {
                 ...clientStore[waistWidthMsg.from.id],
                 waistWidth: +waistWidthMsg.text,
               };
               bot.sendMessage(waistWidthMsg.from.id, TTL_CHEST).then(() => {
                 bot.once('message', chestMsg => {
+
+                  console.log('ID => ', chestMsg.from.id);
+
                   clientStore[chestMsg.from.id] = {
                     ...clientStore[chestMsg.from.id],
                     chest: +chestMsg.text,
                   };
                   bot.sendMessage(chestMsg.from.id, TTL_HEIGHT).then(() => {
                     bot.once('message', heightMsg => {
+
+                      console.log('ID => ', heightMsg.from.id);
+
                       clientStore[heightMsg.from.id] = {
                         ...clientStore[heightMsg.from.id],
                         height: +heightMsg.text,
                       };
                       bot.sendMessage(heightMsg.from.id, TTL_SHOE_SIZE).then(() => {
                         bot.once('message', shoeSizeMsg => {
+
+                          console.log('ID => ', shoeSizeMsg.from.id);
+
                           clientStore[shoeSizeMsg.from.id] = {
                             ...clientStore[shoeSizeMsg.from.id],
                             shoeSize: +shoeSizeMsg.text,
                           };
-                          bot.sendPhoto(shoeSizeMsg.from.id, 'src/assets/figure_type.jpg');
-                          
-                          // makeGetRequest(getLink);
-                          
+                          bot.sendPhoto(shoeSizeMsg.from.id, FIGURE_TYPE_PATH);
+
                           bot.sendMessage(shoeSizeMsg.from.id, TTL_FAT_PERCENTAGE).then(() => {
                             bot.once('message', scaleOfFatMsg => {
+
+                              console.log('ID => ', scaleOfFatMsg.from.id);
+
                               clientStore[scaleOfFatMsg.from.id] = {
                                 ...clientStore[scaleOfFatMsg.from.id],
                                 scaleOfFat: +scaleOfFatMsg.text,
                               };
-                              // bot.sendMessage(scaleOfFatMsg.from.id, lnk);
                               const shape = shapeTypeDetermination(clientStore[scaleOfFatMsg.from.id]);
                               const user = new User({
                                 telegramId: scaleOfFatMsg.from.id,
                                 ...clientStore[scaleOfFatMsg.from.id],
-                              ...shape,
+                                ...shape,
                               });
                               user.save(err => console.log(err));
-
-                              // const link = `https://api.telegra.ph/createPage?access_token=b968da509bb76866c35425099bc0989a5ec3b32997d55286c657e6994bbb&title=Sample+Page&author_name=Anonymous&content=[{"tag":"p","children":["${shape.recommendations}"]}]&return_content=true`;
 
                               makeGetRequest(shape.recommendations).then(resp => {
                                 bot.sendMessage(scaleOfFatMsg.from.id, resp);
                               });
-
                             });
                           });
                         });
