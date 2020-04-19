@@ -31,12 +31,20 @@ import User from './models/users';
 
 let lnk = '';
 
+const getToken = async () => {
+  const result = await axios.get('https://api.telegra.ph/createAccount?short_name=style&author_name=m1nd');
+  const access_token = JSON.stringify(result.data.result.access_token);
+
+  return access_token;
+}
+
 async function makeGetRequest(content) {
   
   // let res = await axios.get(link);
+  const accessToken = await getToken();
 
   const res = await axios.post('https://api.telegra.ph/createPage', {
-      access_token: "0c43c05e11881e9a4f5ce831eaaddd87704f33e0b73b1cd39b128631f5b6",
+      access_token: accessToken,
       title: "Title of page",
       content: [{"tag":"p","children": [content]}],
       return_content: true,
