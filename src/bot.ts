@@ -87,7 +87,7 @@ const makeGetRequest = async (content: string): Promise<any> => {
 };
 
 
-const getUserParameters = (callbackQuery) => {
+const getUserParameters = async (callbackQuery) => {
 
   const fromId =  callbackQuery.from.id;
 
@@ -168,7 +168,7 @@ const getUserParameters = (callbackQuery) => {
 
 }
 
-const startClothesSelection = (callbackQuery) => {
+const startClothesSelection = async (callbackQuery) => {
   const fromId =  callbackQuery.from.id;
 
   bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
@@ -257,9 +257,9 @@ bot.onText(new RegExp(START, 'i'), msg => {
 
 
 
-bot.on('callback_query', callbackQuery => {
-  getUserParameters(callbackQuery);
-  startClothesSelection(callbackQuery);
+bot.on('callback_query', async (callbackQuery) => {
+  await getUserParameters(callbackQuery);
+  await startClothesSelection(callbackQuery);
   // const fromId =  callbackQuery.from.id;
 
   // clientStore[fromId] = {
