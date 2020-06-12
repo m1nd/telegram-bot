@@ -186,20 +186,20 @@ const getUserParameters = async (callbackQuery) => {
 
 }
 
-const startClothesSelection = async (callbackQuery) => {
-  const fromId =  callbackQuery.from.id;
+// const startClothesSelection = async (callbackQuery) => {
+//   const fromId =  callbackQuery.from.id;
 
-  bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
-    // bot.once('message', backWidthMsg => {
-    //   clientStore[fromId] = {
-    //     ...clientStore[fromId],
-    //     backWidth: +backWidthMsg.text,
-    //   };
-    // })
+//   bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
+//     // bot.once('message', backWidthMsg => {
+//     //   clientStore[fromId] = {
+//     //     ...clientStore[fromId],
+//     //     backWidth: +backWidthMsg.text,
+//     //   };
+//     // })
 
 
-  });
-}
+//   });
+// }
 
 if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
