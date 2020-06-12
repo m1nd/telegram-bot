@@ -24,6 +24,7 @@ import {
   TXT_DRESS_CODES,
   TXT_METHODICAL_DESCRIPTION,
   TXT_CHECK_FIGURE_TYPE,
+  TXT_DRESS_CODE,
 } from './constants';
 import User from './models/users';
 
@@ -33,6 +34,7 @@ import User from './models/users';
 const token = process.env.TOKEN;
 const FIGURE_TYPE_PATH = 'src/assets/figure_type.jpg';
 const ACCESS_TOKEN ='671c8902745c11be2a5d99d54dcd9383272adc9acd44712592c11d3ba0ff';
+const LNK_DRESS_CODE = "https://docs.google.com/document/d/1a7q2dBvRW1XDdX_kCJ444CJBhUb6ngC6f0JR2_i1B3A";
 let clientStore = {};
 let bot;
 
@@ -191,7 +193,8 @@ const getUserParameters = async (callbackQuery) => {
 const getDressCode = async (callbackQuery) => {
   const fromId =  callbackQuery.from.id;
 
-  bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
+  bot.sendMessage(fromId, TXT_DRESS_CODE).then(() => {
+    bot.sendMessage(fromId, LNK_DRESS_CODE);
     // bot.once('message', backWidthMsg => {
     //   clientStore[fromId] = {
     //     ...clientStore[fromId],
