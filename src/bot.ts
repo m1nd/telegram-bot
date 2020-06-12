@@ -150,18 +150,17 @@ const getUserParameters = async (callbackQuery) => {
 
                               makeGetRequest(shape.recommendations).then(resp => {
                                 bot.sendMessage(fromId, resp).then(() => {
-                                  // startClothesSelection(callbackQuery);
                                   bot.sendMessage(fromId, TTL_DRESS_CODE, {
                                     reply_markup: {
                                       inline_keyboard: [
                                         [
                                           {
                                             text: 'Перейти к выбору дресс-кода',
-                                            callback_data: 'dress_code_next',
+                                            callback_data: 'dressCode_next',
                                           },
                                           {
                                             text: 'Вернуться к определению типа внешности',
-                                            callback_data: 'dress_code_back',
+                                            callback_data: 'dressCode_back',
                                           },
                                         ],
                                       ],
@@ -260,11 +259,11 @@ bot.onText(new RegExp(START, 'i'), msg => {
         [
           {
             text: 'Мужской',
-            callback_data: 'male',
+            callback_data: 'userParam_male',
           },
           {
             text: 'Женский',
-            callback_data: 'female',
+            callback_data: 'userParam_female',
           },
         ],
       ],
@@ -276,7 +275,7 @@ bot.onText(new RegExp(START, 'i'), msg => {
 
 
 bot.on('callback_query', async (callbackQuery) => {
-  console.log("CB =>>>> ", callbackQuery);
+  console.log("CB DATA =>>>> ", callbackQuery.data);
   await getUserParameters(callbackQuery);
   // await startClothesSelection(callbackQuery);
   // const fromId =  callbackQuery.from.id;
