@@ -208,8 +208,6 @@ const getDressCode = async (callbackQuery) => {
               text: 'Business',
               callback_data: 'dcType_business',
             },
-          ],
-          [
             {
               text: 'Business-casual',
               callback_data: 'dcType_business-casual',
@@ -220,14 +218,10 @@ const getDressCode = async (callbackQuery) => {
               text: 'Casual',
               callback_data: 'dcType_casual',
             },
-          ],
-          [
             {
               text: 'Ultra-casual',
               callback_data: 'dcType_ultra-casual',
             },
-          ],
-          [
             {
               text: 'Sport',
               callback_data: 'dcType_sport',
