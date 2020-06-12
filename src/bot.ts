@@ -166,6 +166,8 @@ const getUserParameters = async (callbackQuery) => {
                                             text: 'Перейти к выбору дресс-кода',
                                             callback_data: 'dressCode_next',
                                           },
+                                        ],
+                                        [
                                           {
                                             text: 'Вернуться к определению типа внешности',
                                             callback_data: 'dressCode_back',
@@ -279,8 +281,6 @@ const getSeason = async (callbackQuery) => {
             text: 'Верхняя одежда',
             callback_data: 'clothesLayer_outerwear',
           },
-        ],
-        [
           {
             text: 'Основная',
             callback_data: 'clothesLayer_basic',
@@ -291,8 +291,6 @@ const getSeason = async (callbackQuery) => {
             text: 'Нижнее бельё',
             callback_data: 'clothesLayer_underwear',
           },
-        ],
-        [
           {
             text: 'Аксессуары',
             callback_data: 'clothesLayer_accessories',
