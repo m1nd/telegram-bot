@@ -19,6 +19,8 @@ import {
   TTL_FAT_PERCENTAGE,
   TTL_DRESS_CODE,
   TTL_SEASON,
+  TTL_CLOTHES_LAYER,
+  TTL_CLOTHES_LIST,
 
   TXT_INTRO,
   TXT_FIGURE_TYPES,
@@ -195,15 +197,6 @@ const getDressCode = async (callbackQuery) => {
   const fromId =  callbackQuery.from.id;
 
   bot.sendMessage(fromId, TXT_DRESS_CODE).then(() => {
-    // bot.sendMessage(fromId, LNK_DRESS_CODE).then(() => {
-
-    // })
-    // bot.once('message', backWidthMsg => {
-    //   clientStore[fromId] = {
-    //     ...clientStore[fromId],
-    //     backWidth: +backWidthMsg.text,
-    //   };
-    // })
 
     bot.sendMessage(fromId, LNK_DRESS_CODE, {
       reply_markup: {
@@ -234,24 +227,78 @@ const getDressCode = async (callbackQuery) => {
       },
     });
 
-
   });
 }
 
 const getDressCodeType = async (callbackQuery) => {
   const fromId =  callbackQuery.from.id;
 
-  bot.sendMessage(fromId, TTL_SEASON);
+    bot.sendMessage(fromId, TTL_SEASON, {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Summer/Indoor',
+              callback_data: 'season_summer',
+            },
+            {
+              text: 'Autumn/Spring',
+              callback_data: 'season_autumn',
+            },
+            {
+              text: 'Winter',
+              callback_data: 'season_winter',
+            },
+          ],
+        ],
+      },
+    });
 
-  // bot.sendMessage(fromId, TXT_DRESS_CODE).then(() => {
-
-  // })
 };
+
+const getSeason = async (callbackQuery) => {
+  const fromId =  callbackQuery.from.id;
+
+  bot.sendMessage(fromId, TTL_CLOTHES_LAYER, {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: 'Верхняя одежда',
+            callback_data: 'clothesLayer_outerwear',
+          },
+          {
+            text: 'Основная',
+            callback_data: 'clothesLayer_basic',
+          },
+          {
+            text: 'Нижнее бельё',
+            callback_data: 'clothesLayer_underwear',
+          },
+          {
+            text: 'Аксессуары',
+            callback_data: 'clothesLayer_accessories',
+          },
+        ],
+      ],
+    },
+  });
+
+}
+
+const getClothesLayer = async (callbackQuery) => {
+  const fromId =  callbackQuery.from.id;
+
+  bot.sendMessage(fromId, TTL_CLOTHES_LIST);
+
+}
 
 const stateFunctions = {
   dressCode: getDressCode,
   userParam: getUserParameters,
   dcType: getDressCodeType,
+  season: getSeason,
+  clothesLayer: getClothesLayer,
 };
 
 if (process.env.NODE_ENV === 'production') {
