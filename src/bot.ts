@@ -37,6 +37,9 @@ let clientStore = {};
 let bot;
 
 
+
+const getFunctionName = (name: string) => name.split('_')[0]
+
 const getToken = async (): Promise<string> => {
   const result = await axios.get('https://api.telegra.ph/createAccount?short_name=style&author_name=m1nd');
   const accessToken = JSON.stringify(result.data.result.access_token);
@@ -185,20 +188,25 @@ const getUserParameters = async (callbackQuery) => {
 
 }
 
-// const startClothesSelection = async (callbackQuery) => {
-//   const fromId =  callbackQuery.from.id;
+const getDressCode = async (callbackQuery) => {
+  const fromId =  callbackQuery.from.id;
 
-//   bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
-//     // bot.once('message', backWidthMsg => {
-//     //   clientStore[fromId] = {
-//     //     ...clientStore[fromId],
-//     //     backWidth: +backWidthMsg.text,
-//     //   };
-//     // })
+  bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
+    // bot.once('message', backWidthMsg => {
+    //   clientStore[fromId] = {
+    //     ...clientStore[fromId],
+    //     backWidth: +backWidthMsg.text,
+    //   };
+    // })
 
 
-//   });
-// }
+  });
+}
+
+const stateFunctions = {
+  dressCode: getDressCode,
+  userParam: getUserParameters,
+};
 
 if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
@@ -271,12 +279,12 @@ bot.onText(new RegExp(START, 'i'), msg => {
   });
 });
 
-
-
-
 bot.on('callback_query', async (callbackQuery) => {
-  console.log("CB DATA =>>>> ", callbackQuery.data);
-  await getUserParameters(callbackQuery);
+
+  stateFunctions[getFunctionName(callbackQuery.data)](callbackQuery);
+
+  // console.log("CB DATA =>>>> ", callbackQuery.data);
+  // await getUserParameters(callbackQuery);
   // await startClothesSelection(callbackQuery);
   // const fromId =  callbackQuery.from.id;
 
