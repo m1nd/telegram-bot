@@ -249,10 +249,14 @@ const getDressCodeType = async (callbackQuery) => {
               text: 'Summer/Indoor',
               callback_data: 'season_summer',
             },
+          ],
+          [
             {
               text: 'Autumn/Spring',
               callback_data: 'season_autumn',
             },
+          ],
+          [
             {
               text: 'Winter',
               callback_data: 'season_winter',
@@ -275,14 +279,20 @@ const getSeason = async (callbackQuery) => {
             text: 'Верхняя одежда',
             callback_data: 'clothesLayer_outerwear',
           },
+        ],
+        [
           {
             text: 'Основная',
             callback_data: 'clothesLayer_basic',
           },
+        ],
+        [
           {
             text: 'Нижнее бельё',
             callback_data: 'clothesLayer_underwear',
           },
+        ],
+        [
           {
             text: 'Аксессуары',
             callback_data: 'clothesLayer_accessories',
