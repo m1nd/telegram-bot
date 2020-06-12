@@ -18,6 +18,7 @@ import {
   TTL_SHOE_SIZE,
   TTL_FAT_PERCENTAGE,
   TTL_DRESS_CODE,
+  TTL_SEASON,
 
   TXT_INTRO,
   TXT_FIGURE_TYPES,
@@ -194,7 +195,9 @@ const getDressCode = async (callbackQuery) => {
   const fromId =  callbackQuery.from.id;
 
   bot.sendMessage(fromId, TXT_DRESS_CODE).then(() => {
-    bot.sendMessage(fromId, LNK_DRESS_CODE);
+    // bot.sendMessage(fromId, LNK_DRESS_CODE).then(() => {
+
+    // })
     // bot.once('message', backWidthMsg => {
     //   clientStore[fromId] = {
     //     ...clientStore[fromId],
@@ -202,13 +205,53 @@ const getDressCode = async (callbackQuery) => {
     //   };
     // })
 
+    bot.sendMessage(fromId, LNK_DRESS_CODE, {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Business',
+              callback_data: 'dcType_business',
+            },
+            {
+              text: 'Business-casual',
+              callback_data: 'dcType_business-casual',
+            },
+            {
+              text: 'Casual',
+              callback_data: 'dcType_casual',
+            },
+            {
+              text: 'Ultra-casual',
+              callback_data: 'dcType_ultra-casual',
+            },
+            {
+              text: 'Sport',
+              callback_data: 'dcType_sport',
+            },
+          ],
+        ],
+      },
+    });
+
 
   });
 }
 
+const getDressCodeType = async (callbackQuery) => {
+  const fromId =  callbackQuery.from.id;
+
+  bot.sendMessage(fromId, TTL_SEASON);
+
+  // bot.sendMessage(fromId, TXT_DRESS_CODE).then(() => {
+
+  // })
+};
+
 const stateFunctions = {
   dressCode: getDressCode,
   userParam: getUserParameters,
+  dcType: getDressCodeType,
 };
 
 if (process.env.NODE_ENV === 'production') {
@@ -286,84 +329,6 @@ bot.on('callback_query', async (callbackQuery) => {
 
   stateFunctions[getFunctionName(callbackQuery.data)](callbackQuery);
 
-  // console.log("CB DATA =>>>> ", callbackQuery.data);
-  // await getUserParameters(callbackQuery);
-  // await startClothesSelection(callbackQuery);
-  // const fromId =  callbackQuery.from.id;
-
-  // clientStore[fromId] = {
-  //   ...clientStore[fromId],
-  //   sex: callbackQuery.data[0],
-  // };
-  // bot.sendMessage(fromId, TTL_SHOULDERS).then(() => {
-  //   bot.once('message', backWidthMsg => {
-  //     clientStore[fromId] = {
-  //       ...clientStore[fromId],
-  //       backWidth: +backWidthMsg.text,
-  //     };
-  //     bot.sendMessage(fromId, TTL_HIPS).then(() => {
-  //       bot.once('message', hipsWidthMsg => {
-  //         clientStore[fromId] = {
-  //           ...clientStore[fromId],
-  //           hipsWidth: +hipsWidthMsg.text,
-  //         };
-  //         bot.sendMessage(fromId, TTL_WAIST).then(() => {
-  //           bot.once('message', waistWidthMsg => {
-  //             clientStore[fromId] = {
-  //               ...clientStore[fromId],
-  //               waistWidth: +waistWidthMsg.text,
-  //             };
-  //             bot.sendMessage(fromId, TTL_CHEST).then(() => {
-  //               bot.once('message', chestMsg => {
-  //                 clientStore[fromId] = {
-  //                   ...clientStore[fromId],
-  //                   chest: +chestMsg.text,
-  //                 };
-  //                 bot.sendMessage(fromId, TTL_HEIGHT).then(() => {
-  //                   bot.once('message', heightMsg => {
-  //                     clientStore[fromId] = {
-  //                       ...clientStore[fromId],
-  //                       height: +heightMsg.text,
-  //                     };
-  //                     bot.sendMessage(fromId, TTL_SHOE_SIZE).then(() => {
-  //                       bot.once('message', shoeSizeMsg => {
-  //                         clientStore[fromId] = {
-  //                           ...clientStore[fromId],
-  //                           shoeSize: +shoeSizeMsg.text,
-  //                         };
-  //                         bot.sendPhoto(fromId, FIGURE_TYPE_PATH);
-
-  //                         bot.sendMessage(fromId, TTL_FAT_PERCENTAGE).then(() => {
-  //                           bot.once('message', scaleOfFatMsg => {
-  //                             clientStore[fromId] = {
-  //                               ...clientStore[fromId],
-  //                               scaleOfFat: +scaleOfFatMsg.text,
-  //                             };
-  //                             const shape = shapeTypeDetermination(clientStore[fromId]);
-  //                             const user = new User({
-  //                               telegramId: fromId,
-  //                               ...clientStore[fromId],
-  //                               ...shape,
-  //                             });
-  //                             user.save(err => console.log(err));
-
-  //                             makeGetRequest(shape.recommendations).then(resp => {
-  //                               bot.sendMessage(fromId, resp);
-  //                             });
-  //                           });
-  //                         });
-  //                       });
-  //                     });
-  //                   });
-  //                 });
-  //               });
-  //             });
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
 });
 
 // bot.onText(/\/echo (.+) (.+)/, (msg, match) => {
