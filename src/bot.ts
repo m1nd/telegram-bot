@@ -17,6 +17,8 @@ import {
   TTL_HEIGHT,
   TTL_SHOE_SIZE,
   TTL_FAT_PERCENTAGE,
+  TTL_DRESS_CODE,
+
   TXT_INTRO,
   TXT_FIGURE_TYPES,
   TXT_DRESS_CODES,
@@ -166,6 +168,21 @@ const getUserParameters = (callbackQuery) => {
 
 }
 
+const startClothesSelection = (callbackQuery) => {
+  const fromId =  callbackQuery.from.id;
+
+  bot.sendMessage(fromId, TTL_DRESS_CODE).then(() => {
+    // bot.once('message', backWidthMsg => {
+    //   clientStore[fromId] = {
+    //     ...clientStore[fromId],
+    //     backWidth: +backWidthMsg.text,
+    //   };
+    // })
+
+
+  });
+}
+
 if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
   bot.setWebHook(process.env.HEROKU_URL + ':' + process.env.PORT + '/' + bot.token);
@@ -242,6 +259,7 @@ bot.onText(new RegExp(START, 'i'), msg => {
 
 bot.on('callback_query', callbackQuery => {
   getUserParameters(callbackQuery);
+  startClothesSelection(callbackQuery);
   // const fromId =  callbackQuery.from.id;
 
   // clientStore[fromId] = {
