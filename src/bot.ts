@@ -60,7 +60,13 @@ const makeGetRequest = async (content: string): Promise<any> => {
           tag: 'img',
           attrs: {
             src: 'assets/metrics.png',
+            width: 100,
+            height: 100,
           }
+        },
+        {
+          tag: 'h1',
+          children: ['in the end']
         }
       ],
       return_content: true,
