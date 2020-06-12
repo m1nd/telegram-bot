@@ -60,10 +60,10 @@ const makeGetRequest = async (content: string): Promise<any> => {
           tag: 'img',
           attrs: {
             // src: '../assets/figure_type.jpg',
-            src: '/usr/src/app/assets/figure_type.jpg',
+            // src: '/usr/src/app/assets/figure_type.jpg',
             // width: 100,
             // height: 100,
-            // src: "https://www.gettyimages.com/gi-resources/images/500px/983794168.jpg", 
+            src: "https://www.gettyimages.com/gi-resources/images/500px/983794168.jpg", 
             alt: "no image"
           }
         },
