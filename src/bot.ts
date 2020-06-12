@@ -149,7 +149,9 @@ const getUserParameters = async (callbackQuery) => {
                               user.save(err => console.log(err));
 
                               makeGetRequest(shape.recommendations).then(resp => {
-                                bot.sendMessage(fromId, resp);
+                                bot.sendMessage(fromId, resp).then(() => {
+                                  startClothesSelection(callbackQuery);
+                                })
                               });
                             });
                           });
@@ -259,7 +261,7 @@ bot.onText(new RegExp(START, 'i'), msg => {
 
 bot.on('callback_query', async (callbackQuery) => {
   await getUserParameters(callbackQuery);
-  await startClothesSelection(callbackQuery);
+  // await startClothesSelection(callbackQuery);
   // const fromId =  callbackQuery.from.id;
 
   // clientStore[fromId] = {
