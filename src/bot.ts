@@ -151,7 +151,7 @@ const getUserParameters = async (callbackQuery) => {
                               makeGetRequest(shape.recommendations).then(resp => {
                                 bot.sendMessage(fromId, resp).then(() => {
                                   // startClothesSelection(callbackQuery);
-                                  bot.sendMessage(fromId, TTL_SEX, {
+                                  bot.sendMessage(fromId, TTL_DRESS_CODE, {
                                     reply_markup: {
                                       inline_keyboard: [
                                         [
