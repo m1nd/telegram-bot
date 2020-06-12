@@ -23,7 +23,7 @@ services:
     networks:
       - app-network
     command: >
-      sh -c "./wait-for.sh db:27017 && npm start && pwd" 
+      sh -c "./wait-for.sh db:27017 && npm start && ls" 
 
   db:
     image: mongo:4.1.8-xenial
